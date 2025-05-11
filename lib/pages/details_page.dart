@@ -48,13 +48,39 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Future<void> handleDelete() async {
-    if (_residence == null) return;
+  final shouldDelete = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Confirmar Exclusão'),
+      content: const Text('Tem certeza que deseja excluir esta residência?'),
+      backgroundColor: Colors.white,
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancelar',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text(
+            'Excluir',
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ],
+    ),
+  );
+
+  if (shouldDelete == true && _residence != null) {
     await Provider.of<ResidenceProvider>(
       context,
       listen: false,
     ).deleteResidence(_residence!.id);
-    Navigator.pop(context);
+
+    Navigator.pop(context); // Volta para a tela anterior
   }
+}
 
   Future<void> _navigateToEdit() async {
     if (_residence == null) return;
