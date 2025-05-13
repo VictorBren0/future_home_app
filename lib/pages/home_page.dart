@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           image: AssetImage('assets/images/logo.png'),
           height: 40,
         ),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle),

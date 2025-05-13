@@ -75,12 +75,12 @@ class ItemCard extends StatelessWidget {
             isHome
                 ? Icon(
                     Icons.home_outlined,
-                    color: Colors.deepOrange,
+                    color: Colors.lightBlue,
                     size: 24,
                   )
                 : Icon(
                     Icons.apartment_outlined,
-                    color: Colors.deepOrange,
+                    color: Colors.lightBlue,
                     size: 24,
                   ),
             Text(

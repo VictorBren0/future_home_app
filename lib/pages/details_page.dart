@@ -48,39 +48,43 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   Future<void> handleDelete() async {
-  final shouldDelete = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Confirmar Exclusão'),
-      content: const Text('Tem certeza que deseja excluir esta residência?'),
-      backgroundColor: Colors.white,
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancelar',
-            style: TextStyle(color: Colors.black),
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Confirmar Exclusão'),
+            content: const Text(
+              'Tem certeza que deseja excluir esta residência?',
+            ),
+            backgroundColor: Colors.white,
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text(
+                  'Cancelar',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text(
+                  'Excluir',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
           ),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: const Text(
-            'Excluir',
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
-      ],
-    ),
-  );
+    );
 
-  if (shouldDelete == true && _residence != null) {
-    await Provider.of<ResidenceProvider>(
-      context,
-      listen: false,
-    ).deleteResidence(_residence!.id);
+    if (shouldDelete == true && _residence != null) {
+      await Provider.of<ResidenceProvider>(
+        context,
+        listen: false,
+      ).deleteResidence(_residence!.id);
 
-    Navigator.pop(context); // Volta para a tela anterior
+      Navigator.pop(context); // Volta para a tela anterior
+    }
   }
-}
 
   Future<void> _navigateToEdit() async {
     if (_residence == null) return;
@@ -113,7 +117,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes'),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         actions: [
           IconButton(icon: const Icon(Icons.edit), onPressed: _navigateToEdit),
@@ -128,13 +132,27 @@ class _DetailsPageState extends State<DetailsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Data: ${DateFormat('dd/MM/yyyy').format(residence.createdAt)}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black54,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Criado em: ${DateFormat('dd/MM/yyyy').format(residence.createdAt)}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    if (residence.updatedAt != null)
+                      Text(
+                        'Atualizado em: ${residence.updatedAt != null ? DateFormat('dd/MM/yyyy').format(residence.updatedAt!) : 'Data não disponível'}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black54,
+                        ),
+                      ),
+                  ],
                 ),
                 ScaleCard(
                   calculateScale([
@@ -155,7 +173,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ? Icons.apartment
                         : Icons.error,
                     size: 80,
-                    color: Colors.deepOrange,
+                    color: Colors.lightBlue,
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -203,7 +221,12 @@ class _DetailsPageState extends State<DetailsPage> {
                   'label': 'Telefone do Vendedor',
                   'value': residence.phoneSeller,
                 },
-                {'label': 'Preço', 'value': residence.price.toString()},
+                {
+                  'label': 'Preço',
+                  'value': NumberFormat.simpleCurrency(
+                    locale: 'pt_BR',
+                  ).format(residence.price),
+                },
               ],
             ),
           ],

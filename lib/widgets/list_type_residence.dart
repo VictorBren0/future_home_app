@@ -22,7 +22,7 @@ class ListTypeResidence extends StatelessWidget {
             label: const Text('Casa'),
             style: ElevatedButton.styleFrom(
               backgroundColor:
-                  selected == 'casa' ? Colors.deepOrange : Colors.grey[300],
+                  selected == 'casa' ? Theme.of(context).colorScheme.primary : Colors.grey[300],
               foregroundColor:
                   selected == 'casa' ? Colors.white : Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -40,7 +40,7 @@ class ListTypeResidence extends StatelessWidget {
             label: const Text('Apartamento'),
             style: ElevatedButton.styleFrom(
               backgroundColor: selected == 'apartamento'
-                  ? Colors.deepOrange
+                  ? Theme.of(context).colorScheme.primary
                   : Colors.grey[300],
               foregroundColor: selected == 'apartamento'
                   ? Colors.white

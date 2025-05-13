@@ -11,7 +11,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ResidenceProvider()),
+        ChangeNotifierProvider(create: (BuildContext context) => ResidenceProvider()),
       ],
       child: const App(),
     ),
@@ -34,7 +34,7 @@ class _AppState extends State<App> {
       title: "Future Home",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepOrange,
+          seedColor: const Color.fromARGB(94, 33, 91, 255),
         ),
       ),
       routes: {

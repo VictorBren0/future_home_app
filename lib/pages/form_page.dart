@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:future_home_app/models/residence_model.dart';
 import 'package:future_home_app/utils/generate_unique_id.dart';
+import 'package:future_home_app/utils/money_input_formatter.dart';
+import 'package:future_home_app/utils/phone_input_formatter.dart';
 import 'package:future_home_app/widgets/list_type_residence.dart';
 import 'package:future_home_app/widgets/select.dart';
 import 'package:future_home_app/widgets/stars_rating.dart';
+import 'package:intl/intl.dart';
 import '../widgets/input.dart';
 import 'package:future_home_app/providers/residence_provider.dart';
 import 'package:provider/provider.dart';
@@ -37,18 +40,40 @@ class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _options = ["Não Possui", "1", "2", "3", "4", "5"];
 
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _neighborhoodController = TextEditingController();
+  final TextEditingController _nmSellerController = TextEditingController();
+  final TextEditingController _phoneSellerController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+
+  bool isLoaded = false;
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    _neighborhoodController.dispose();
+    _nmSellerController.dispose();
+    _phoneSellerController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
+
   Future<void> handleSave() async {
     if (residence.id.isEmpty) {
       residence.id = generateUniqueId();
-      Provider.of<ResidenceProvider>(context, listen: false).postResidence(residence);
+      Provider.of<ResidenceProvider>(
+        context,
+        listen: false,
+      ).postResidence(residence);
       Navigator.pop(context);
       return;
     }
-    Provider.of<ResidenceProvider>(context, listen: false).putResidence(residence);
+    Provider.of<ResidenceProvider>(
+      context,
+      listen: false,
+    ).putResidence(residence);
     Navigator.pop(context, residence);
   }
-
-  bool isLoaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +96,22 @@ class _FormPageState extends State<FormPage> {
       residence.rtSeller = residenceEdit.rtSeller;
       residence.createdAt = residenceEdit.createdAt;
       residence.updatedAt = DateTime.now();
+
+      _addressController.text = residence.address;
+      _neighborhoodController.text = residence.neighborhood;
+      _nmSellerController.text = residence.nmSeller;
+      _phoneSellerController.text = residence.phoneSeller;
+      _priceController.text = NumberFormat.simpleCurrency(
+        locale: 'pt_BR',
+      ).format(residence.price);
+
       isLoaded = true;
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Criar Avaliação'),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         foregroundColor: Colors.white,
       ),
@@ -114,21 +148,21 @@ class _FormPageState extends State<FormPage> {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.location_on,
-                        color: Colors.deepOrange,
+                        color: Colors.redAccent,
                         size: 18.0,
                       ),
                       Text(
                         "Minha Localização",
-                        style: TextStyle(color: Colors.deepOrange),
+                        style: TextStyle(color: Colors.redAccent),
                       ),
                     ],
                   ),
                 ),
                 Input(
-                  value: residence.address,
+                  controller: _addressController,
                   label: "Endereço",
                   isRequired: true,
                   onChange: (value) {
@@ -143,7 +177,7 @@ class _FormPageState extends State<FormPage> {
                 ),
                 const SizedBox(height: 12),
                 Input(
-                  value: residence.neighborhood,
+                  controller: _neighborhoodController,
                   label: "Bairro",
                   isRequired: true,
                   onChange: (value) {
@@ -175,7 +209,6 @@ class _FormPageState extends State<FormPage> {
                   ],
                 ),
                 const SizedBox(height: 16),
-
                 Text(
                   'Detalhes da Residência:',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -285,7 +318,7 @@ class _FormPageState extends State<FormPage> {
                 ),
                 const SizedBox(height: 16),
                 Input(
-                  value: residence.nmSeller,
+                  controller: _nmSellerController,
                   label: "Nome do Vendedor",
                   onChange: (value) {
                     residence.nmSeller = value;
@@ -293,19 +326,26 @@ class _FormPageState extends State<FormPage> {
                 ),
                 const SizedBox(height: 12),
                 Input(
-                  value: residence.phoneSeller,
+                  controller: _phoneSellerController,
                   label: "Telefone do Vendedor",
+                  inputFormatters: [phoneInputFormatter()],
+                  keyboardType: TextInputType.phone,
                   onChange: (value) {
                     residence.phoneSeller = value;
                   },
                 ),
                 const SizedBox(height: 12),
                 Input(
-                  value: residence.price.toString(),
+                  controller: _priceController,
                   label: "Preço",
                   isRequired: true,
+                  inputFormatters: [moneyInputFormatter()],
                   onChange: (value) {
-                    residence.price = double.tryParse(value) ?? 0.0;
+                    final cleanedValue = value.replaceAll(
+                      RegExp(r'[^0-9]'),
+                      '',
+                    );
+                    residence.price = double.tryParse(cleanedValue) ?? 0.0;
                   },
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
@@ -342,7 +382,7 @@ class _FormPageState extends State<FormPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(250, 50),
-                      backgroundColor: Colors.deepOrange,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 12,
