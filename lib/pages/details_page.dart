@@ -76,13 +76,16 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
     );
 
+    if (!mounted) return;
+
     if (shouldDelete == true && _residence != null) {
       await Provider.of<ResidenceProvider>(
         context,
         listen: false,
       ).deleteResidence(_residence!.id);
 
-      Navigator.pop(context); // Volta para a tela anterior
+      if (!mounted) return;
+      Navigator.pop(context);
     }
   }
 
@@ -91,10 +94,15 @@ class _DetailsPageState extends State<DetailsPage> {
 
     await Navigator.pushNamed(context, Routes.FORM, arguments: _residence);
 
+    if (!mounted) return;
+
     final updated = await Provider.of<ResidenceProvider>(
       context,
       listen: false,
     ).getResidenceId(_residence!.id);
+
+    if (!mounted) return;
+
     setState(() {
       _residence = updated;
     });
@@ -136,7 +144,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Criado em: ${DateFormat('dd/MM/yyyy').format(residence.createdAt)}',
+                      'Criado em: ${DateFormat('dd/MM/yyyy - kk:mm').format(residence.createdAt)}',
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -145,7 +153,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     if (residence.updatedAt != null)
                       Text(
-                        'Atualizado em: ${residence.updatedAt != null ? DateFormat('dd/MM/yyyy').format(residence.updatedAt!) : 'Data não disponível'}',
+                        'Atualizado em: ${residence.updatedAt != null ? DateFormat('dd/MM/yyyy - kk:mm').format(residence.updatedAt!) : 'Data não disponível'}',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -163,6 +171,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               ],
             ),
+            const SizedBox(height: 16),
             Center(
               child: Column(
                 children: [
@@ -216,10 +225,21 @@ class _DetailsPageState extends State<DetailsPage> {
               rating: residence.rtSeller,
               title: 'Avaliação da Venda:',
               details: [
-                {'label': 'Nome do Vendedor', 'value': residence.nmSeller},
+                {
+                  'label': 'Nome do Vendedor',
+                  'value':
+                      (residence.nmSeller != "" &&
+                              residence.nmSeller.isNotEmpty)
+                          ? residence.nmSeller
+                          : '-',
+                },
                 {
                   'label': 'Telefone do Vendedor',
-                  'value': residence.phoneSeller,
+                  'value':
+                      (residence.phoneSeller != "" &&
+                              residence.phoneSeller.isNotEmpty)
+                          ? residence.phoneSeller
+                          : '-',
                 },
                 {
                   'label': 'Preço',
