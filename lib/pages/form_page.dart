@@ -4,6 +4,7 @@ import 'package:future_home_app/utils/generate_unique_id.dart';
 import 'package:future_home_app/utils/money_input_formatter.dart';
 import 'package:future_home_app/utils/phone_input_formatter.dart';
 import 'package:future_home_app/widgets/list_type_residence.dart';
+import 'package:future_home_app/widgets/location_button.dart';
 import 'package:future_home_app/widgets/select.dart';
 import 'package:future_home_app/widgets/stars_rating.dart';
 import 'package:intl/intl.dart';
@@ -142,24 +143,10 @@ class _FormPageState extends State<FormPage> {
                   'Endereço da Residência:',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    print("Minha Localização clicado");
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        color: Colors.redAccent,
-                        size: 18.0,
-                      ),
-                      Text(
-                        "Minha Localização",
-                        style: TextStyle(color: Colors.redAccent),
-                      ),
-                    ],
-                  ),
+                LocationButton(
+                  addressController: _addressController,
+                  neighborhoodController: _neighborhoodController,
+                  residence: residence,
                 ),
                 Input(
                   controller: _addressController,
@@ -341,17 +328,21 @@ class _FormPageState extends State<FormPage> {
                   isRequired: true,
                   inputFormatters: [moneyInputFormatter()],
                   onChange: (value) {
-                    final cleanedValue = value.replaceAll(
-                      RegExp(r'[^0-9]'),
-                      '',
-                    );
-                    residence.price = double.tryParse(cleanedValue) ?? 0.0;
-                  },
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Campo obrigatório';
+                    try {
+                      final cleanedValue = value.replaceAll(
+                        RegExp(r'[^\d,\.]'),
+                        '',
+                      );
+
+                      final numberFormat = NumberFormat.currency(
+                        locale: 'pt_BR',
+                        symbol: '',
+                      );
+                      residence.price =
+                          numberFormat.parse(cleanedValue).toDouble();
+                    } catch (e) {
+                      residence.price = 0.0;
                     }
-                    return null;
                   },
                 ),
                 const SizedBox(height: 12),

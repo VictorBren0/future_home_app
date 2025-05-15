@@ -16,17 +16,22 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   @override
   void initState() {
-    super.initState();
-    Future.microtask(() async {
-      await Provider.of<ResidenceProvider>(
-        context,
-        listen: false,
-      ).getResidences();
-      setState(() {
-        isLoading = false;
-      });
-    });
-  }
+  super.initState();
+  Future.microtask(() => loadResidences());
+}
+
+Future<void> loadResidences() async {
+  await Provider.of<ResidenceProvider>(
+    context,
+    listen: false,
+  ).getResidences();
+
+  if (!mounted) return;
+
+  setState(() {
+    isLoading = false;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
