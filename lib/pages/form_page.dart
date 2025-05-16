@@ -111,7 +111,7 @@ class _FormPageState extends State<FormPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Criar Avaliação'),
+        title: Text(residenceEdit != null ? "Editar Avaliação" : 'Criar Avaliação'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         foregroundColor: Colors.white,
