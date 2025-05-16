@@ -9,7 +9,19 @@ Future Home é um aplicativo desenvolvido com Flutter, com o objetivo de ajudar 
 A tela inicial exibe todas as avaliações realizadas pelo usuário, com opção de criar uma nova. Ao tocar em um cartão, você acessa a página de detalhes da avaliação, onde é possível visualizar todas as informações registradas, editar entradas ou excluir.  
 
 ## 📸 Capturas de Tela
-// Em breve
+
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/169c2610-ac3f-409d-9e47-fba31dd2a31d" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/a00e7c91-da29-4572-a6af-764f17da577a" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/19482219-da05-4497-9144-427ab1db6981" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/0ffc2873-1569-4016-8e5e-31948c408014" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/bad18ab2-1350-46c2-95b1-0cdfb1541fc6" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/ad120e54-4603-49d6-9ba9-12f9d4d3d05c" width="300"/></td>
+  </tr>
+</table>
 
 ## 📁 Telas
 
