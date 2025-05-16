@@ -40,7 +40,7 @@ O APP é composto por 4 telas diferentes:
 :heavy_check_mark: Formulário de cadastro de avaliação residencial;\
 :heavy_check_mark: Página de detalhes com opções de edição e exclusão;\
 :heavy_check_mark: Lógica de criação, leitura, atualização e deleção (CRUD);\
-:heavy_check_mark: Geolocalização para capturar automaticamente o endereço do imóvel;\
+:heavy_check_mark: Geolocalização para capturar automaticamente o endereço do imóvel;
 
 ## :rocket: Tecnologias
 
