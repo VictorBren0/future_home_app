@@ -16,27 +16,28 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   @override
   void initState() {
-  super.initState();
-  Future.microtask(() => loadResidences());
-}
+    super.initState();
+    Future.microtask(() => loadResidences());
+  }
 
-Future<void> loadResidences() async {
-  await Provider.of<ResidenceProvider>(
-    context,
-    listen: false,
-  ).getResidences();
+  Future<void> loadResidences() async {
+    await Provider.of<ResidenceProvider>(
+      context,
+      listen: false,
+    ).getResidences();
 
-  if (!mounted) return;
+    if (!mounted) return;
 
-  setState(() {
-    isLoading = false;
-  });
-}
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final residenceProvider = Provider.of<ResidenceProvider>(context);
     final residences = residenceProvider.residences;
+    final Orientation orientation = MediaQuery.of(context).orientation;
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +78,17 @@ Future<void> loadResidences() async {
                               ? const Center(
                                 child: Text('Nenhuma residência cadastrada.'),
                               )
-                              : ListView.builder(
+                              : GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount:
+                                          orientation == Orientation.portrait
+                                              ? 1
+                                              : 2,
+                                      //mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                      childAspectRatio: 3.5,
+                                    ),
                                 itemCount: residences.length,
                                 itemBuilder: (context, index) {
                                   final item = residences[index];

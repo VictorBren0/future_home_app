@@ -132,125 +132,272 @@ class _DetailsPageState extends State<DetailsPage> {
           IconButton(icon: const Icon(Icons.delete), onPressed: handleDelete),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          if (orientation == Orientation.landscape) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Criado em: ${DateFormat('dd/MM/yyyy - kk:mm').format(residence.createdAt)}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black54,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
+                  child: Column(
+                    children: [
+                      Icon(
+                        residence.typeResidence == "casa"
+                            ? Icons.home
+                            : residence.typeResidence == "apartamento"
+                            ? Icons.apartment
+                            : Icons.error,
+                        size: 80,
+                        color: Colors.lightBlue,
                       ),
-                    ),
-                    if (residence.updatedAt != null)
+                      const SizedBox(height: 8),
                       Text(
-                        'Atualizado em: ${residence.updatedAt != null ? DateFormat('dd/MM/yyyy - kk:mm').format(residence.updatedAt!) : 'Data não disponível'}',
+                        residence.typeResidence == "casa"
+                            ? "Casa"
+                            : residence.typeResidence == "apartamento"
+                            ? "Apartamento"
+                            : "Tipo não disponível",
                         style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black54,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.center,
                       ),
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Criado em: ${DateFormat('dd/MM/yyyy - kk:mm').format(residence.createdAt)}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          if (residence.updatedAt != null)
+                            Text(
+                              'Atualizado em: ${DateFormat('dd/MM/yyyy - kk:mm').format(residence.updatedAt!)}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54,
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      ScaleCard(
+                        calculateScale([
+                          residence.rtAddress,
+                          residence.rtDetailsResidence,
+                          residence.rtSeller,
+                        ]),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        SessionCardDetails(
+                          rating: residence.rtAddress,
+                          title: 'Avaliação do Endereço:',
+                          details: [
+                            {'label': 'Endereço', 'value': residence.address},
+                            {
+                              'label': 'Bairro',
+                              'value': residence.neighborhood,
+                            },
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        SessionCardDetails(
+                          rating: residence.rtDetailsResidence,
+                          title: 'Avaliação dos Detalhes:',
+                          details: [
+                            {
+                              'label': 'Nº de Quartos',
+                              'value': residence.nrRooms,
+                            },
+                            {
+                              'label': 'Nº de Banheiros',
+                              'value': residence.nrBathrooms,
+                            },
+                            {
+                              'label': 'Vaga na Garagem',
+                              'value': residence.nrGarages,
+                            },
+                            {
+                              'label': 'Possui Piscina',
+                              'value': residence.flPool,
+                            },
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        SessionCardDetails(
+                          rating: residence.rtSeller,
+                          title: 'Avaliação da Venda:',
+                          details: [
+                            {
+                              'label': 'Nome do Vendedor',
+                              'value':
+                                  residence.nmSeller.isNotEmpty
+                                      ? residence.nmSeller
+                                      : '-',
+                            },
+                            {
+                              'label': 'Telefone do Vendedor',
+                              'value':
+                                  residence.phoneSeller.isNotEmpty
+                                      ? residence.phoneSeller
+                                      : '-',
+                            },
+                            {
+                              'label': 'Preço',
+                              'value': NumberFormat.simpleCurrency(
+                                locale: 'pt_BR',
+                              ).format(residence.price),
+                            },
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Criado em: ${DateFormat('dd/MM/yyyy - kk:mm').format(residence.createdAt)}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        if (residence.updatedAt != null)
+                          Text(
+                            'Atualizado em: ${DateFormat('dd/MM/yyyy - kk:mm').format(residence.updatedAt!)}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                            ),
+                          ),
+                      ],
+                    ),
+                    ScaleCard(
+                      calculateScale([
+                        residence.rtAddress,
+                        residence.rtDetailsResidence,
+                        residence.rtSeller,
+                      ]),
+                    ),
                   ],
                 ),
-                ScaleCard(
-                  calculateScale([
-                    residence.rtAddress,
-                    residence.rtDetailsResidence,
-                    residence.rtSeller,
-                  ]),
+                const SizedBox(height: 16),
+
+                Center(
+                  child: Column(
+                    children: [
+                      Icon(
+                        residence.typeResidence == "casa"
+                            ? Icons.home
+                            : residence.typeResidence == "apartamento"
+                            ? Icons.apartment
+                            : Icons.error,
+                        size: 80,
+                        color: Colors.lightBlue,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        residence.typeResidence == "casa"
+                            ? "Casa"
+                            : residence.typeResidence == "apartamento"
+                            ? "Apartamento"
+                            : "Tipo de residência não disponível",
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                SessionCardDetails(
+                  rating: residence.rtAddress,
+                  title: 'Avaliação do Endereço:',
+                  details: [
+                    {'label': 'Endereço', 'value': residence.address},
+                    {'label': 'Bairro', 'value': residence.neighborhood},
+                  ],
+                ),
+                const SizedBox(height: 16),
+                SessionCardDetails(
+                  rating: residence.rtDetailsResidence,
+                  title: 'Avaliação dos Detalhes:',
+                  details: [
+                    {'label': 'Nº de Quartos', 'value': residence.nrRooms},
+                    {
+                      'label': 'Nº de Banheiros',
+                      'value': residence.nrBathrooms,
+                    },
+                    {'label': 'Vaga na Garagem', 'value': residence.nrGarages},
+                    {'label': 'Possui Piscina', 'value': residence.flPool},
+                  ],
+                ),
+                const SizedBox(height: 16),
+                SessionCardDetails(
+                  rating: residence.rtSeller,
+                  title: 'Avaliação da Venda:',
+                  details: [
+                    {
+                      'label': 'Nome do Vendedor',
+                      'value':
+                          residence.nmSeller.isNotEmpty
+                              ? residence.nmSeller
+                              : '-',
+                    },
+                    {
+                      'label': 'Telefone do Vendedor',
+                      'value':
+                          residence.phoneSeller.isNotEmpty
+                              ? residence.phoneSeller
+                              : '-',
+                    },
+                    {
+                      'label': 'Preço',
+                      'value': NumberFormat.simpleCurrency(
+                        locale: 'pt_BR',
+                      ).format(residence.price),
+                    },
+                  ],
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Center(
-              child: Column(
-                children: [
-                  Icon(
-                    residence.typeResidence == "casa"
-                        ? Icons.home
-                        : residence.typeResidence == "apartamento"
-                        ? Icons.apartment
-                        : Icons.error,
-                    size: 80,
-                    color: Colors.lightBlue,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    residence.typeResidence == "casa"
-                        ? "Casa"
-                        : residence.typeResidence == "apartamento"
-                        ? "Apartamento"
-                        : "Tipo de residência não disponível",
-                    style: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            SessionCardDetails(
-              rating: residence.rtAddress,
-              title: 'Avaliação do Endereço:',
-              details: [
-                {'label': 'Endereço', 'value': residence.address},
-                {'label': 'Bairro', 'value': residence.neighborhood},
-              ],
-            ),
-            const SizedBox(height: 16),
-            SessionCardDetails(
-              rating: residence.rtDetailsResidence,
-              title: 'Avaliação dos Detalhes:',
-              details: [
-                {'label': 'Nº de Quartos', 'value': residence.nrRooms},
-                {'label': 'Nº de Banheiros', 'value': residence.nrBathrooms},
-                {'label': 'Vaga na Garagem', 'value': residence.nrGarages},
-                {'label': 'Possui Piscina', 'value': residence.flPool},
-              ],
-            ),
-            const SizedBox(height: 16),
-            SessionCardDetails(
-              rating: residence.rtSeller,
-              title: 'Avaliação da Venda:',
-              details: [
-                {
-                  'label': 'Nome do Vendedor',
-                  'value':
-                      (residence.nmSeller != "" &&
-                              residence.nmSeller.isNotEmpty)
-                          ? residence.nmSeller
-                          : '-',
-                },
-                {
-                  'label': 'Telefone do Vendedor',
-                  'value':
-                      (residence.phoneSeller != "" &&
-                              residence.phoneSeller.isNotEmpty)
-                          ? residence.phoneSeller
-                          : '-',
-                },
-                {
-                  'label': 'Preço',
-                  'value': NumberFormat.simpleCurrency(
-                    locale: 'pt_BR',
-                  ).format(residence.price),
-                },
-              ],
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

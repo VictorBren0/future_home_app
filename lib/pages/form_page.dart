@@ -109,9 +109,13 @@ class _FormPageState extends State<FormPage> {
       isLoaded = true;
     }
 
+    final Orientation orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(residenceEdit != null ? "Editar Avaliação" : 'Criar Avaliação'),
+        title: Text(
+          residenceEdit != null ? "Editar Avaliação" : 'Criar Avaliação',
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         foregroundColor: Colors.white,
@@ -148,35 +152,77 @@ class _FormPageState extends State<FormPage> {
                   neighborhoodController: _neighborhoodController,
                   residence: residence,
                 ),
-                Input(
-                  controller: _addressController,
-                  label: "Endereço",
-                  isRequired: true,
-                  onChange: (value) {
-                    residence.address = value;
-                  },
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Campo obrigatório';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                Input(
-                  controller: _neighborhoodController,
-                  label: "Bairro",
-                  isRequired: true,
-                  onChange: (value) {
-                    residence.neighborhood = value;
-                  },
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Campo obrigatório';
-                    }
-                    return null;
-                  },
-                ),
+                orientation == Orientation.landscape
+                    ? Row(
+                      children: [
+                        Expanded(
+                          child: Input(
+                            controller: _addressController,
+                            label: "Endereço",
+                            isRequired: true,
+                            onChange: (value) {
+                              residence.address = value;
+                            },
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Campo obrigatório';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Input(
+                            controller: _neighborhoodController,
+                            label: "Bairro",
+                            isRequired: true,
+                            onChange: (value) {
+                              residence.neighborhood = value;
+                            },
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Campo obrigatório';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                    : Column(
+                      children: [
+                        Input(
+                          controller: _addressController,
+                          label: "Endereço",
+                          isRequired: true,
+                          onChange: (value) {
+                            residence.address = value;
+                          },
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        Input(
+                          controller: _neighborhoodController,
+                          label: "Bairro",
+                          isRequired: true,
+                          onChange: (value) {
+                            residence.neighborhood = value;
+                          },
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -304,46 +350,51 @@ class _FormPageState extends State<FormPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 16),
-                Input(
-                  controller: _nmSellerController,
-                  label: "Nome do Vendedor",
-                  onChange: (value) {
-                    residence.nmSeller = value;
-                  },
-                ),
-                const SizedBox(height: 12),
-                Input(
-                  controller: _phoneSellerController,
-                  label: "Telefone do Vendedor",
-                  inputFormatters: [phoneInputFormatter()],
-                  keyboardType: TextInputType.phone,
-                  onChange: (value) {
-                    residence.phoneSeller = value;
-                  },
-                ),
-                const SizedBox(height: 12),
-                Input(
-                  controller: _priceController,
-                  label: "Preço",
-                  isRequired: true,
-                  inputFormatters: [moneyInputFormatter()],
-                  onChange: (value) {
-                    try {
-                      final cleanedValue = value.replaceAll(
-                        RegExp(r'[^\d,\.]'),
-                        '',
-                      );
-
-                      final numberFormat = NumberFormat.currency(
-                        locale: 'pt_BR',
-                        symbol: '',
-                      );
-                      residence.price =
-                          numberFormat.parse(cleanedValue).toDouble();
-                    } catch (e) {
-                      residence.price = 0.0;
-                    }
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Input(
+                        controller: _nmSellerController,
+                        label: "Nome do Vendedor",
+                        onChange: (value) {
+                          residence.nmSeller = value;
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 2,
+                      child: Input(
+                        controller: _phoneSellerController,
+                        label: "Telefone",
+                        inputFormatters: [phoneInputFormatter()],
+                        keyboardType: TextInputType.phone,
+                        onChange: (value) {
+                          residence.phoneSeller = value;
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 2,
+                      child: Input(
+                        controller: _priceController,
+                        label: "Preço",
+                        inputFormatters: [moneyInputFormatter()],
+                        keyboardType: TextInputType.number,
+                        onChange: (value) {
+                          final cleaned = value.replaceAll(
+                            RegExp(r'[^0-9]'),
+                            '',
+                          );
+                          if (cleaned.isNotEmpty) {
+                            residence.price = double.parse(cleaned) / 100;
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 Row(
