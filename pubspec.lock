@@ -176,6 +176,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.5"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      sha256: "2c11f3f94c687ee9bad77c171151672986360b2b001d109814ee7140b2cf261b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      sha256: "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.2"
   intl:
     dependency: "direct main"
     description:
@@ -405,6 +421,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.1"
+  vb_formatters:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "76d5cea01e927af034fc1aa2c365c4dd774482c8"
+      url: "https://github.com/VictorBren0/vb_formatters.git"
+    source: git
+    version: "0.0.1"
   vector_math:
     dependency: transitive
     description:

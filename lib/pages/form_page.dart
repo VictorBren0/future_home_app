@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:future_home_app/models/residence_model.dart';
 import 'package:future_home_app/utils/generate_unique_id.dart';
-import 'package:future_home_app/utils/money_input_formatter.dart';
-import 'package:future_home_app/utils/phone_input_formatter.dart';
 import 'package:future_home_app/widgets/list_type_residence.dart';
 import 'package:future_home_app/widgets/location_button.dart';
 import 'package:future_home_app/widgets/select.dart';
@@ -11,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../widgets/input.dart';
 import 'package:future_home_app/providers/residence_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:vb_formatters/vb_formatters.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -350,6 +349,7 @@ class _FormPageState extends State<FormPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 16),
+                orientation == Orientation.landscape ?
                 Row(
                   children: [
                     Expanded(
@@ -393,6 +393,43 @@ class _FormPageState extends State<FormPage> {
                           }
                         },
                       ),
+                    ),
+                  ],
+                )
+                : Column(
+                  children: [
+                    Input(
+                      controller: _nmSellerController,
+                      label: "Nome do Vendedor",
+                      onChange: (value) {
+                        residence.nmSeller = value;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    Input(
+                      controller: _phoneSellerController,
+                      label: "Telefone",
+                      inputFormatters: [phoneInputFormatter()],
+                      keyboardType: TextInputType.phone,
+                      onChange: (value) {
+                        residence.phoneSeller = value;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    Input(
+                      controller: _priceController,
+                      label: "Preço",
+                      inputFormatters: [moneyInputFormatter()],
+                      keyboardType: TextInputType.number,
+                      onChange: (value) {
+                        final cleaned = value.replaceAll(
+                          RegExp(r'[^0-9]'),
+                          '',
+                        );
+                        if (cleaned.isNotEmpty) {
+                          residence.price = double.parse(cleaned) / 100;
+                        }
+                      },
                     ),
                   ],
                 ),

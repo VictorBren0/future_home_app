@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:future_home_app/providers/auth_provider.dart';
 import 'package:future_home_app/routes.dart';
 import 'package:future_home_app/utils/calculate_scale.dart';
 import 'package:future_home_app/widgets/item_card.dart';
 import 'package:future_home_app/providers/residence_provider.dart';
 import 'package:provider/provider.dart';
+
+//https://api.open-meteo.com/v1/forecast?latitude=-10.926979&longitude=-37.071267&current=temperature_2m
+//http://www.geoplugin.net/json.gp
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,8 +42,19 @@ class _HomePageState extends State<HomePage> {
     final residenceProvider = Provider.of<ResidenceProvider>(context);
     final residences = residenceProvider.residences;
     final Orientation orientation = MediaQuery.of(context).orientation;
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          authProvider.logout();
+          if (!mounted) return;
+          Navigator.pushReplacementNamed(context, Routes.LOGIN);
+        },
+        backgroundColor: Colors.redAccent,
+        tooltip: 'Sair',
+        child: const Icon(Icons.logout, color: Colors.white),
+      ),
       appBar: AppBar(
         title: const Image(
           image: AssetImage('assets/images/logo.png'),

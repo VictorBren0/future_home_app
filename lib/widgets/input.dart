@@ -9,6 +9,7 @@ class Input extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController controller;
   final List<TextInputFormatter>? inputFormatters;
+  final bool obscureText;
 
   const Input({
     required this.label,
@@ -18,6 +19,7 @@ class Input extends StatelessWidget {
     this.isRequired = false,
     this.validator,
     this.inputFormatters,
+    this.obscureText = false,
     super.key,
   });
 
@@ -28,6 +30,7 @@ class Input extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
+      obscureText: obscureText,
       cursorColor: Colors.black,
       style: const TextStyle(
         color: Colors.black,
