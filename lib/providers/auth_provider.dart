@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider with ChangeNotifier {
@@ -8,7 +9,8 @@ class AuthProvider with ChangeNotifier {
 
   final String _url = "https://identitytoolkit.googleapis.com";
   final String _resource = "/v1/accounts";
-  final String _apiKey = "AIzaSyAfHt0zjGPOwyCJakTk_05cGENIE00vpoI";
+  final String _apiKey = dotenv.env['API_KEY'] ?? '';
+
 
   String? get token => _token;
   String? get message => _message;

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:future_home_app/providers/auth_provider.dart';
 import 'package:future_home_app/routes.dart';
+import 'package:future_home_app/services/weather_service.dart';
 import 'package:future_home_app/utils/calculate_scale.dart';
 import 'package:future_home_app/widgets/item_card.dart';
 import 'package:future_home_app/providers/residence_provider.dart';
 import 'package:provider/provider.dart';
-
-//https://api.open-meteo.com/v1/forecast?latitude=-10.926979&longitude=-37.071267&current=temperature_2m
-//http://www.geoplugin.net/json.gp
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,10 +16,34 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isLoading = true;
+  String? currentTemperature;
+
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => loadResidences());
+    Future.microtask(() async {
+      await loadResidences();
+      await loadTemperature();
+    });
+  }
+
+  Future<void> loadTemperature() async {
+    final weatherService = WeatherService();
+    final location = await weatherService.getLocationInfo();
+
+    if (location == null) return;
+
+    final lat = double.tryParse(location['geoplugin_latitude'] ?? '');
+    final lon = double.tryParse(location['geoplugin_longitude'] ?? '');
+
+    if (lat != null && lon != null) {
+      final temp = await weatherService.getCurrentTemperature(lat, lon);
+      if (temp != null && mounted) {
+        setState(() {
+          currentTemperature = '${temp.toStringAsFixed(1)}°C';
+        });
+      }
+    }
   }
 
   Future<void> loadResidences() async {
@@ -56,11 +78,28 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.logout, color: Colors.white),
       ),
       appBar: AppBar(
-        title: const Image(
-          image: AssetImage('assets/images/logo.png'),
-          height: 40,
-        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Image(
+              image: AssetImage('assets/images/logo.png'),
+              height: 40,
+            ),
+            const SizedBox(width: 10),
+            if (currentTemperature != null)
+              Text(
+                currentTemperature!,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+          ],
+        ),
+        centerTitle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle),

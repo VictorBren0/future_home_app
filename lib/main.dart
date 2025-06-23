@@ -8,9 +8,11 @@ import 'package:future_home_app/providers/auth_provider.dart';
 import 'package:future_home_app/routes.dart';
 import 'package:future_home_app/providers/residence_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [
