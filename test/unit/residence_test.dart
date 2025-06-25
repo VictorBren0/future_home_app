@@ -92,7 +92,7 @@ void main() {
       });
 
       await residenceProvider.postResidence(residence);
-      await residenceProvider.deleteResidence(residence.id!);
+      await residenceProvider.deleteResidence(residence.id);
       await residenceProvider.getResidences();
 
       expect(residenceProvider.residences, isEmpty);

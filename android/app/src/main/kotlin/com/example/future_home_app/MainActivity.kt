@@ -1,4 +1,4 @@
-package com.example.future_home_app
+package dev.victorbreno.future_home_app
 
 import io.flutter.embedding.android.FlutterActivity
 

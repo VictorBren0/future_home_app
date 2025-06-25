@@ -49,3 +49,7 @@ app.*.map.json
 .env.local
 .env.development
 .env.test
+
+# keys
+/android/key.properties
+/android/my-release-key.jks
