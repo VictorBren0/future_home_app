@@ -56,6 +56,21 @@ As seguintes ferramentas foram utilizadas neste projeto:
 
 Antes de começar, você precisa ter [Git](https://git-scm.com) e [Flutter](https://docs.flutter.dev/get-started/install) instalados em seu computador.
 
+## :package: Configuração do Firebase ##
+
+Siga as instruções da seção [Configuração do Firebase](https://firebase.google.com/docs/auth/flutter/start?hl=pt-br).
+
+Ative o provedor de autenticação desejado no [Firebase Console](https://console.firebase.google.com/u/0/) (ex: Email/Senha).
+
+Para usar o Firebase no projeto, é necessário configurar sua API key usando um arquivo .env.
+
+Crie um arquivo .env na raiz do projeto (no mesmo nível do pubspec.yaml).
+
+Dentro do arquivo .env, adicione sua chave da API do Firebase no seguinte formato:
+```bash
+API_KEY=Sua_API_KEY_aqui
+```
+
 ## :checkered_flag: Getting Started ##
 
 ```bash
