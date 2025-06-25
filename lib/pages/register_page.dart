@@ -107,6 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Input(
+                                key: const Key('email-input'),
                                 controller: _emailController,
                                 label: "Email",
                                 isRequired: true,
@@ -126,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               const SizedBox(height: 16),
 
                               Input(
+                                key: const Key('password-input'),
                                 controller: _passwordController,
                                 label: "Senha",
                                 isRequired: true,
@@ -144,6 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               const SizedBox(height: 16),
 
                               Input(
+                                key: const Key('confirm-password-input'),
                                 controller: _confirmPasswordController,
                                 label: "Confirmar Senha",
                                 isRequired: true,

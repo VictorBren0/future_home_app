@@ -134,6 +134,7 @@ class _FormPageState extends State<FormPage> {
                 ),
                 const SizedBox(height: 8),
                 ListTypeResidence(
+                  key: const Key('type-residence-list'),
                   onChange: (value) {
                     setState(() {
                       residence.typeResidence = value;
@@ -156,6 +157,7 @@ class _FormPageState extends State<FormPage> {
                       children: [
                         Expanded(
                           child: Input(
+                            key: const Key('address-input'),
                             controller: _addressController,
                             label: "Endereço",
                             isRequired: true,
@@ -173,6 +175,7 @@ class _FormPageState extends State<FormPage> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Input(
+                            key: const Key('neighborhood-input'),
                             controller: _neighborhoodController,
                             label: "Bairro",
                             isRequired: true,
@@ -192,6 +195,7 @@ class _FormPageState extends State<FormPage> {
                     : Column(
                       children: [
                         Input(
+                          key: const Key('address-input'),
                           controller: _addressController,
                           label: "Endereço",
                           isRequired: true,
@@ -207,6 +211,7 @@ class _FormPageState extends State<FormPage> {
                         ),
                         const SizedBox(height: 12),
                         Input(
+                          key: const Key('neighborhood-input'),
                           controller: _neighborhoodController,
                           label: "Bairro",
                           isRequired: true,
@@ -231,6 +236,7 @@ class _FormPageState extends State<FormPage> {
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                     StarsRating(
+                      key: const Key('rating-address'),
                       rating: residence.rtAddress,
                       onChange: (value) {
                         setState(() {
@@ -250,6 +256,7 @@ class _FormPageState extends State<FormPage> {
                   children: [
                     Expanded(
                       child: Select(
+                        key: const Key('nr-rooms-select'),
                         label: "Nº de Quartos",
                         isRequired: true,
                         options: _options,
@@ -268,6 +275,7 @@ class _FormPageState extends State<FormPage> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Select(
+                        key: const Key('nr-bathrooms-select'),
                         label: "Nº de Banheiros",
                         isRequired: true,
                         options: _options,
@@ -290,6 +298,7 @@ class _FormPageState extends State<FormPage> {
                   children: [
                     Expanded(
                       child: Select(
+                        key: const Key('nr-garages-select'),
                         label: "Vaga na Garagem",
                         isRequired: true,
                         options: _options,
@@ -308,6 +317,7 @@ class _FormPageState extends State<FormPage> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Select(
+                        key: const Key('fl-pool-select'),
                         label: "Possui Piscina",
                         isRequired: true,
                         options: ["Sim", "Não"],
@@ -334,6 +344,7 @@ class _FormPageState extends State<FormPage> {
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                     StarsRating(
+                      key: const Key('rating-details'),
                       rating: residence.rtDetailsResidence,
                       onChange: (value) {
                         setState(() {
@@ -355,6 +366,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       flex: 2,
                       child: Input(
+                        key: const Key('nm-seller-input'),
                         controller: _nmSellerController,
                         label: "Nome do Vendedor",
                         onChange: (value) {
@@ -366,6 +378,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       flex: 2,
                       child: Input(
+                        key: const Key('phone-seller-input'),
                         controller: _phoneSellerController,
                         label: "Telefone",
                         inputFormatters: [phoneInputFormatter()],
@@ -379,6 +392,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       flex: 2,
                       child: Input(
+                        key: const Key('price-input'),
                         controller: _priceController,
                         label: "Preço",
                         inputFormatters: [moneyInputFormatter()],
@@ -399,6 +413,7 @@ class _FormPageState extends State<FormPage> {
                 : Column(
                   children: [
                     Input(
+                      key: const Key('nm-seller-input'),
                       controller: _nmSellerController,
                       label: "Nome do Vendedor",
                       onChange: (value) {
@@ -407,6 +422,7 @@ class _FormPageState extends State<FormPage> {
                     ),
                     const SizedBox(height: 12),
                     Input(
+                      key: const Key('phone-seller-input'),
                       controller: _phoneSellerController,
                       label: "Telefone",
                       inputFormatters: [phoneInputFormatter()],
@@ -417,6 +433,7 @@ class _FormPageState extends State<FormPage> {
                     ),
                     const SizedBox(height: 12),
                     Input(
+                      key: const Key('price-input'),
                       controller: _priceController,
                       label: "Preço",
                       inputFormatters: [moneyInputFormatter()],
@@ -442,6 +459,7 @@ class _FormPageState extends State<FormPage> {
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                     StarsRating(
+                      key: const Key('rating-seller'),
                       rating: residence.rtSeller,
                       onChange: (value) {
                         setState(() {

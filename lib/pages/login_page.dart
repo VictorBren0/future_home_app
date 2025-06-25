@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               // Email
                               Input(
+                                key: const Key('email-input'),
                                 controller: _emailController,
                                 label: "Email",
                                 isRequired: true,
@@ -116,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
 
                               // Senha
                               Input(
+                                key: const Key('password-input'),
                                 controller: _passwordController,
                                 label: "Senha",
                                 isRequired: true,
