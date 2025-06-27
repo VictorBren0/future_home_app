@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "421614721846",
+    "project_id": "authfuturehome",
+    "storage_bucket": "authfuturehome.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421614721846:android:a431e939475a9dd1147197",
+        "android_client_info": {
+          "package_name": "dev.victorbreno.future_home_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb8n-6Pc9ZHAcZLiUQ-j48iTF9tD9jsEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

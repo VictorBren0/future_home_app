@@ -1,5 +1,6 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:future_home_app/firebase_options.dart';
 import 'package:future_home_app/providers/auth_provider.dart';
 
 void main() {
@@ -7,7 +8,9 @@ void main() {
     late AuthProvider authProvider;
 
     setUp(() async {
-      await dotenv.load(fileName: ".env");
+      await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
       authProvider = AuthProvider();
     });
 

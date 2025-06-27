@@ -1,81 +1,58 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthProvider with ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   String? _message;
-  String? _token;
-
-  final String _url = "https://identitytoolkit.googleapis.com";
-  final String _resource = "/v1/accounts";
-  final String _apiKey = dotenv.env['API_KEY'] ?? '';
-
-
-  String? get token => _token;
   String? get message => _message;
-  bool get isAuthenticated => _token != null;
+
+  bool get isAuthenticated => _auth.currentUser != null;
 
   Future<bool> signUpUser(String email, String password) async {
-    final uri = Uri.parse('$_url$_resource:signUp?key=$_apiKey');
-
     try {
-      final response = await http.post(uri, body: {
-        'email': email,
-        'password': password,
-        'returnSecureToken': 'true'
-      });
-      final data = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        _token = data['idToken'];
-        _message = null;
-        notifyListeners();
-        return true;
-      } else {
-        _message = data['error']?['message'] ?? 'Erro desconhecido';
-        notifyListeners();
-        return false;
-      }
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      _message = null;
+      notifyListeners();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      _message = e.message;
+      notifyListeners();
+      return false;
     } catch (e) {
-      _message = 'Erro ao conectar com o servidor.';
+      _message = 'Erro inesperado.';
       notifyListeners();
       return false;
     }
   }
 
   Future<bool> signInUser(String email, String password) async {
-    final uri = Uri.parse('$_url$_resource:signInWithPassword?key=$_apiKey');
-
     try {
-      final response = await http.post(uri, body: {
-        'email': email,
-        'password': password,
-        'returnSecureToken': 'true'
-      });
-
-      final data = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        _token = data['idToken'];
-        _message = null;
-        notifyListeners();
-        return true;
-      } else {
-        _message = data['error']?['message'] ?? 'Erro desconhecido';
-        notifyListeners();
-        return false;
-      }
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      _message = null;
+      notifyListeners();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      _message = e.message;
+      notifyListeners();
+      return false;
     } catch (e) {
-      _message = 'Erro ao conectar com o servidor.';
+      _message = 'Erro inesperado.';
       notifyListeners();
       return false;
     }
   }
 
-  void logout() {
-    _token = null;
-    _message = null;
+  void logout() async {
+    await _auth.signOut();
     notifyListeners();
   }
+
+  String? get token => _auth.currentUser?.uid; // ou use getIdToken() se quiser um JWT
 }

@@ -62,14 +62,22 @@ Siga as instruções da seção [Configuração do Firebase](https://firebase.go
 
 Ative o provedor de autenticação desejado no [Firebase Console](https://console.firebase.google.com/u/0/) (ex: Email/Senha).
 
-Para usar o Firebase no projeto, é necessário configurar sua API key usando um arquivo .env.
-
-Crie um arquivo .env na raiz do projeto (no mesmo nível do pubspec.yaml).
-
-Dentro do arquivo .env, adicione sua chave da API do Firebase no seguinte formato:
+Certifique-se de ter o FlutterFire CLI instalado:
 ```bash
-API_KEY=Sua_API_KEY_aqui
+$ dart pub global activate flutterfire_cli
 ```
+
+Autentique-se com sua conta Google (a mesma usada no Firebase):
+```bash
+$ flutterfire configure
+```
+Siga o assistente:
+
+Escolha o projeto Firebase
+
+Selecione as plataformas (Android, iOS, Web, etc.)
+
+Isso criará um arquivo `firebase_options.dart` na pasta `lib/` do seu projeto.
 
 ## :checkered_flag: Getting Started ##
 
