@@ -8,11 +8,15 @@ Future Home é um aplicativo desenvolvido com Flutter, com o objetivo de ajudar 
 
 A tela inicial exibe todas as avaliações realizadas pelo usuário, com opção de criar uma nova. Ao tocar em um cartão, você acessa a página de detalhes da avaliação, onde é possível visualizar todas as informações registradas, editar entradas ou excluir.  
 
-## 📸 Capturas de Tela
 
+## 📸 Capturas de Tela
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/169c2610-ac3f-409d-9e47-fba31dd2a31d" width="300"/></td>
+    <td><img width="300" src="https://github.com/user-attachments/assets/bb4dfbd3-dc98-4bd2-9203-fcbb3326b2cf" /></td>
+    <td><img width="300" src="https://github.com/user-attachments/assets/ce8d0674-9f83-4dba-be81-a1c6bc5a02cb" /></td>
+    <td><img width="300" src="https://github.com/user-attachments/assets/c6b5b61f-b8c9-418a-a1c6-d37fec46d171" /></td>
+  <tr>
+    <td><img width="300" src="https://github.com/user-attachments/assets/4d359234-c68b-46cf-8169-cb3cea57a961" /></td>
     <td><img src="https://github.com/user-attachments/assets/a00e7c91-da29-4572-a6af-764f17da577a" width="300"/></td>
     <td><img src="https://github.com/user-attachments/assets/19482219-da05-4497-9144-427ab1db6981" width="300"/></td>
   </tr>
@@ -25,8 +29,10 @@ A tela inicial exibe todas as avaliações realizadas pelo usuário, com opção
 
 ## 📁 Telas
 
-O APP é composto por 4 telas diferentes:
+O APP é composto por 6 telas diferentes:
 
+- **Login:** Tela inicial para acesso ao app. O usuário informa seu e-mail e senha para entrar em sua conta e visualizar suas avaliações.
+- **Cadastro:** Permite que novos usuários criem uma conta, preenchendo informações como nome, e-mail e senha para começar a usar o aplicativo.
 - **Listagem de Avaliações:** Exibe todos os laudos cadastrados pelo usuário, com resumo das principais informações.
 - **Criar Avaliação:** Formulário para inserir dados do imóvel: localização, características, notas e ect..
 - **Detalhes da Avaliação:** Apresenta todas as informações registradas, com botões para editar ou excluir o laudo.
@@ -40,7 +46,10 @@ O APP é composto por 4 telas diferentes:
 :heavy_check_mark: Formulário de cadastro de avaliação residencial;\
 :heavy_check_mark: Página de detalhes com opções de edição e exclusão;\
 :heavy_check_mark: Lógica de criação, leitura, atualização e deleção (CRUD);\
-:heavy_check_mark: Geolocalização para capturar automaticamente o endereço do imóvel;
+:heavy_check_mark: Geolocalização para capturar automaticamente o endereço do imóvel;\
+:heavy_check_mark: Informação sobre a temperatura atual;\
+:heavy_check_mark: Login e Cadastro com Firebase;\
+:heavy_check_mark: Testes unitários e widgets;
 
 ## :rocket: Tecnologias
 
