@@ -4,13 +4,13 @@ import 'package:future_home_app/firebase_options.dart';
 import 'package:future_home_app/providers/auth_provider.dart';
 
 void main() {
+
   group('AuthProvider', () {
     late AuthProvider authProvider;
 
-    setUp(() async {
-      await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+    setUpAll(() async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
       authProvider = AuthProvider();
     });
 
